@@ -23,8 +23,6 @@ firebase.auth().onAuthStateChanged((user) => {
     .then((querySnapshot) => {
         var content = '';
         querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
             var Id = doc.data().ServeID;
             var tag = doc.data().AnimalID;
             var Date1 = doc.data().DateServe;

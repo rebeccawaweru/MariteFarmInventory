@@ -29,11 +29,15 @@ firebase.auth().onAuthStateChanged((user) => {
           querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
-        var Id = doc.data().UserId;
+          var UserType = doc.data().UserType;
+        if(UserType === "user"){
+            document.getElementById("warn").style.display = "block";
+        }else if(UserType === "admin"){
+            document.getElementById("body").style.display = "block"; 
+        }
          
           document.getElementById('displayname').innerHTML= doc.data().Name;
           });
-          
       })
       .catch((error) => {
           console.log("Error getting documents: ", error);
@@ -44,80 +48,65 @@ firebase.auth().onAuthStateChanged((user) => {
       var queryString = decodeURIComponent(window.location.search);
       queryString = queryString.substring(1);
 
-      firebase.firestore().collection("allanimals")
+      firebase.firestore().collection("weights")
       .get()
       .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, " => ", doc.data());
+          var Id = doc.data().WeightID;
           var Id2 = doc.data().ItemId;
-         var method = doc.data().Method1;
-          if(queryString == Id2 ){
+          var Date1 = doc.data().Date1;
+          var weight = doc.data().Weight;
+          if(queryString == Id ){
+
+            document.getElementById('date').value= Date1;
+            document.getElementById('weight').value= weight;
 
             document.getElementById('update').onclick = () =>{
-              var date = document.getElementById('date').value;
-                var weight1 = document.getElementById('weight').value;
-                var weightRef = firebase.firestore().collection('weights').doc();
-                weightRef.set({
-                  WeightID:weightRef.id,
-                  ItemId:queryString,
-                  Weight:weight1,
-                  Date1:date,
-                }).then(()=>{
-                  console.log("Document successfully written!");
-                })
-                .catch((error) => {
-                  console.error("Error writing document: ", error);
-                 });
-                var animalsRef = firebase.firestore().collection('allanimals').doc(queryString);
+                var date1= document.getElementById('date').value;
+                var weight = document.getElementById("weight").value;
+                var animalsRef = firebase.firestore().collection('weights').doc(queryString);
                    return animalsRef.update({
-                    CurrentWeight:weight1
+                    Date1: date1,
+                    Weight: weight,
                    })
                   .then(() => {
-                  console.log("Document successfully written!");
-                  if(method === "Bought"){
-                    window.location.href = "records.html";
-                  }else if(method === "Born"){
-                    window.location.href = "offsprings.html";   
-                  }
-                 
+                      console.log("Document successfully written!");
+                  //    window.setTimeout(()=>{location.reload()},3000) ;
+                  
+                  window.location.href = "Weigh.html" + "?" + Id2;
+        
                   })
                   .catch((error) => {
                       console.error("Error writing document: ", error);
                   });
                   }
+
           }
-          }); 
-      })
-      .catch((error) => {
-          console.log("Error getting documents: ", error);
-      });
-
-      firebase.firestore().collection("weights").where("ItemId","==", queryString).get()
-      .then((querySnapshot) => {
-          var content = '';
-          querySnapshot.forEach((doc) => {
-          var date1 = doc.data().Date1;
-          var date3 = new Date(date1);
-          var weight = doc.data().Weight;
-          var docid = doc.data().WeightID;
-          let editanimal = 'EditWeight.html' + '?' + docid;
-
-          content+= `<tr>`
-          content+=`<td>`+ date3.toDateString()+ `</td>`;
-          content+=`<td>`+ weight  + "kg" +`</td>`;
-          content += '<td id="edit2"> <a href="'+editanimal+'" >Edit</a> </td>';
-          content+=`</tr>`
+          document.getElementById("delete").onclick=function(){
+            firebase.firestore().collection("weights").doc(queryString).delete().then(() => {
+              console.log("Document successfully deleted!");
+              window.location.href = "Weigh.html" + "?" + Id2;
+              
+          }).catch((error) => {
+              console.error("Error removing document: ", error);
           });
-          $("#items1").append(content);
+          }
+
+          document.getElementById("cancel").onclick=function(){
+            window.location.href = "Weigh.html" + "?" + Id2;
+          }
+
+          }); 
+
       })
       .catch((error) => {
           console.log("Error getting documents: ", error);
       });
 
-      document.getElementById("cancel").onclick = function(){
-          window.location.href = "records.html";
-      }
+
+         
 
     } else {
       // User is signed out
