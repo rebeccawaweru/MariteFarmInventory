@@ -60,9 +60,12 @@ document.getElementById('logout').onclick = ()=>{
              var weight2 = doc.data().FinalWeight;
              var Price = doc.data().Price2;
              var Date1 = doc.data().DateSold;
+             var Date2 = doc.data().DateAcquired;
+             var Date3 = new Date(Date1);
+             var Date4 = new Date(Date2);
              var PP = doc.data().Pricekg;
              var Sell = doc.data().SellingPrice;
-          
+             var Id = doc.data().SoldId;
              total2 = parseInt(doc.data().SellingPrice);
               total3 += total2;
              document.getElementById('sales').innerHTML = total3;
@@ -101,7 +104,7 @@ document.getElementById('logout').onclick = ()=>{
              .then((querySnapshot) => {
                  var content = "";
 
-                 let consumption = 0;
+                let consumption = 0;
                  let totalconsumption = 0;
                  querySnapshot.forEach((doc) => {
                      // doc.data() is never undefined for query doc snapshots
@@ -135,6 +138,8 @@ document.getElementById('logout').onclick = ()=>{
                 var p = "-";
             }
 
+            let editanimal = 'EditSold.html' + '?' + Id;
+
             content+= `<tr>`;
             content+=`<td>`+ Animal + `</td>`;
             content+=`<td>`+ Name + `</td>`;
@@ -144,12 +149,14 @@ document.getElementById('logout').onclick = ()=>{
             content+=`<td>`+ totalconsumption + `</td>`;
         
             content+=`<td>`+ totalearnings + `</td>`;
-            content+=`<td>`+ Date1 + `</td>`;
+            content+=`<td>`+ Date4.toDateString() + `</td>`;
+            content+=`<td>`+ Date3.toDateString() + `</td>`;
             content+=`<td>`+ Math.round(PP*10)/10 +"ksh"+ "/"+"kg"+ `</td>`;
             content+=`<td>`+ Sell + `</td>`;
             content+=`<td id="edit2">`+ total1 + `</td>`;
             content+=`<td id="ex">`+ totalexpense + `</td>`;
             content+=`<td>`+ p + percent1 + "%" + `</td>`;
+            content += '<td id="edit2"> <a href="'+editanimal+'">Edit</a> </td>';
             content+= `</tr>`;
    
 

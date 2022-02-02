@@ -61,7 +61,7 @@ firebase.auth().onAuthStateChanged((user) => {
                  var cause = doc.data().CauseofDeath;
                 var weight = doc.data().InitialWeight;
                 var currentweight = doc.data().CurrentWeight;
-                
+                var Id2 = doc.data().DeathId;
                  document.getElementById("no").innerHTML = querySnapshot.docs.length;
                  firebase.firestore().collection("earnings").where("AnimalId", "==", Animal2).get().then((querySnapshot) => {
                     let earnings = 0;
@@ -82,7 +82,6 @@ firebase.auth().onAuthStateChanged((user) => {
                      let totalconsumption = 0;
                      querySnapshot.forEach((doc) => {
                          // doc.data() is never undefined for query doc snapshots
-                      
                          var Id = doc.data().IdAnimal;
                   
                          consumption = parseInt(doc.data().Price);
@@ -114,6 +113,7 @@ firebase.auth().onAuthStateChanged((user) => {
                     var percent1 = Math.round(percent * 10)/10;
                     var p = "-";
                 }
+                let editanimal = 'EditDeath.html' + '?' + Id2;
     
                 content+= `<tr>`;
                 content+=`<td>`+ Animal + `</td>`;
@@ -129,6 +129,7 @@ firebase.auth().onAuthStateChanged((user) => {
                 content+=`<td id="edit2">`+ total1 + `</td>`;
                 content+=`<td id="ex">`+ totalexpense + `</td>`;
                 content+=`<td>`+ p + percent1 + "%" + `</td>`;
+                content += '<td id="edit2"> <a href="'+editanimal+'">Edit</a> </td>';
                 content+= `</tr>`;
              
             $("#sold").append(content);   

@@ -83,14 +83,34 @@
       
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-       
-        <li class="active treeview"> <a href="#"> <i class="fa fa-dashboard"></i> <span>Records</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span></a>
+        <li class=" treeview"> <a href="#"><i class="fa fa-dashboard"></i> <span>Analysis</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span></a>
           <ul class="treeview-menu">
-            <li class="active"><a href="records.html">Animal Inventory</a></li>
-            <li class="active"><a href="Consumptions2.html">Consumptions</a></li>
-      
+            <li><a href="Total.html">General</a></li>
+            <li><a href="Animalrepo.html">Animals</a></li>
           </ul>
         </li>
+      <li class="treeview"> <a href="#"> <i class="fa fa-dashboard"></i> <span>Animals</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span></a>
+        <ul class="treeview-menu">
+          <li><a href="records.html">Farm Animals</a></li>
+          <li><a href="offsprings.html">Offsprings</a></li>
+          <li><a href="Servelist.html">Served</a></li>
+          <li><a href="Death.html">Deaths</a></li>
+          
+        </ul>
+      </li>
+      <li class="treeview"> <a href="#"><i class="fa fa-dashboard"></i> <span>Expenses</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span></a>
+        <ul class="treeview-menu">
+          <li><a href="Consumptions2.html">Consumptions</a></li>
+          <li><a href="Staff.html">Staff</a></li>
+          <li><a href="Expenditure.html">Other expenditure</a></li>
+        </ul>
+      </li>
+      <li class="active treeview"> <a href="#"> <i class="fa fa-dashboard"></i> <span>Earnings</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span></a>
+        <ul class="treeview-menu">
+          <li class="active"><a href="TotalEarning.html">Earnings</a></li>
+          <li><a href="Sold.html">Sale</a></li>
+        </ul>
+      </li>
         <!-- <li class="header"> Inventory </li>
         <li class="treeview"> <a href="#"> <i class="fa fa-edit"></i> <span>Update Inventory</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
           <ul class="treeview-menu">
@@ -122,12 +142,17 @@
     
     <!-- Main content -->
     <div class="content">
+      <div id="warn" style="display: none;">
+        <p>You do not have enough permission to edit this document</p>
+        <a href="Consumptions2.html" style="font-weight: bolder; font-size: larger;">Go Back</a>
+       </div> 
+       <div id="body" style="display:none;">
         <div class="row">
           <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="info-box bg-darkblue">
               <div class="info-box-content">
-                <h6 class="info-box-text text-white"> Monthly Earning</h6>
-                <h1 class="text-white" id=""></h1>
+                <h6 class="info-box-text text-white"> Today's Earning</h6>
+                <h1 class="text-white" id="todayearning"></h1>
                 <!-- <span class="progress-description text-white"> 70% Increase in 30 Days </span> -->
                </div>
               <!-- /.info-box-content --> 
@@ -169,6 +194,7 @@
         </div>
         <!-- <button type="button" class="btn btn-success mt-5" id="totals" style="float: center;">View Totals</button> -->
       </div>
+    </div> 
     </div>
     <!-- /.content --> 
   </div>

@@ -54,15 +54,18 @@ document.getElementById('sell').onclick = function(){
             var Price1 = doc.data().InitialCost;
             var weight1 = doc.data().InitialWeight;
             var priceperkg = sell/weight;
+            var date = doc.data().Date;
         if(queryString == IdA){
         var SoldRef = firebase.firestore().collection("sold").doc();
         SoldRef.set({
+            SoldId : SoldRef.id,
             IdAnimal:IdA,
             AnimalID:Animal1,
             AnimalName: Name,
             AnimalType:type,
             InitialWeight:weight1,
             Price2:Price1,
+            DateAcquired:date,
             DateSold: Date1,
             Month:name1,
             FinalWeight:weight,

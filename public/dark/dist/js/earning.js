@@ -14,10 +14,29 @@ firebase.auth().onAuthStateChanged((user) => {
                         // An error happened.
                       });
                    }
-                //    document.getElementById('add').onclick = ()=>{
-                //     window.location.href = "Addcons.html"  ;
-   
-                // }
+                    //collect data
+      firebase.firestore().collection("users").where('UserId', '==', uid)
+      .get(user)
+      .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+              // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        var Id = doc.data().UserId;
+          var UserType = doc.data().UserType;
+          
+        if(UserType === "user"){
+            document.getElementById("warn").style.display = "block";
+        }else if(UserType === "admin"){
+            document.getElementById("body").style.display = "block"; 
+        }
+         
+          document.getElementById('displayname').innerHTML= doc.data().Name;
+          });
+          
+      })
+      .catch((error) => {
+          console.log("Error getting documents: ", error);
+      });
 
             var queryString = decodeURIComponent(window.location.search);
             queryString = queryString.substring(1);
@@ -44,7 +63,7 @@ firebase.auth().onAuthStateChanged((user) => {
                       totalearning +=total;
 
 
-                        document.getElementById("todayearning").innerHTML = totalearning;
+                       
 
                         document.getElementById("totalearning").innerHTML = totalearning;
                         
@@ -73,18 +92,7 @@ firebase.auth().onAuthStateChanged((user) => {
           // and finaly, in days :)
           var timeDifferenceInDays = timeDifferenceInHours  / 24;
           console.log(timeDifferenceInDays);
-          if(timeDifferenceInDays === 7){
-            var weeklyearning = totalearning * 7;
-            document.getElementById("weeklyearning").innerHTML = weeklyearning;
-          }else{
-            document.getElementById("weeklyearning").innerHTML = "---";
-          }
-          if(timeDifferenceInDays === 30){
-            var monthlyearning = totalearning * 30;
-            document.getElementById("monthlyearning").innerHTML=monthlyearning;
-          }else{
-            document.getElementById("monthlyearning").innerHTML = "---";
-          }
+      
             //END OF GETTING NUMBER OF DAYS
 
             let editanimal = 'EditEarning.html' + '?' + Id2;
@@ -115,7 +123,26 @@ firebase.auth().onAuthStateChanged((user) => {
                     console.log("Error getting documents: ", error);
                 });
             
-          
+                firebase.firestore().collection("earnings").where("AnimalId","==",queryString)
+                .get()
+                .then((querySnapshot) => {
+                  let earn = 0;
+                  let earn1 = 0;
+                  let today = new Date().toISOString().slice(0, 10)
+                    querySnapshot.forEach((doc) => {
+                        // doc.data() is never undefined for query doc snapshots
+                        var Date1 = doc.data().Date;
+                        if (Date1 === today){
+                         earn = parseInt(doc.data().Earning);
+                          earn1 += earn;
+                      document.getElementById("todayearning").innerHTML = earn1;
+                        }
+                      
+                    });
+                })
+                .catch((error) => {
+                    console.log("Error getting documents: ", error);
+                });      
             
 
           

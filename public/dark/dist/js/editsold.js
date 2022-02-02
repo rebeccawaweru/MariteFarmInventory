@@ -3,15 +3,6 @@ firebase.auth().onAuthStateChanged((user) => {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       var uid = user.uid;
-    
-        //buttons
-      // document.getElementById("animals").onclick = function(){
-      //     window.location.href="Animals.html";
-      // }
-      // document.getElementById("store").onclick = function(){
-      //     window.location.href="table-basic.html";
-      // }
-
           //logout
           document.getElementById('logout').onclick = ()=>{
             firebase.auth().signOut().then(() => {
@@ -29,7 +20,9 @@ firebase.auth().onAuthStateChanged((user) => {
           querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
-          var UserType = doc.data().UserType;
+        var Id = doc.data().UserId;
+        var UserType = doc.data().UserType;
+          
         if(UserType === "user"){
             document.getElementById("warn").style.display = "block";
         }else if(UserType === "admin"){
@@ -48,33 +41,34 @@ firebase.auth().onAuthStateChanged((user) => {
       var queryString = decodeURIComponent(window.location.search);
       queryString = queryString.substring(1);
 
-      firebase.firestore().collection("weights")
+      firebase.firestore().collection("sold")
       .get()
       .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, " => ", doc.data());
-          var Id = doc.data().WeightID;
-          var Id2 = doc.data().ItemId;
-          var Date1 = doc.data().Date1;
-          var weight = doc.data().Weight;
+          var Id = doc.data().SoldId;
           if(queryString == Id ){
 
-            document.getElementById('date').value= Date1;
-            document.getElementById('weight').value= weight;
+            document.getElementById('date').value= doc.data().DateSold;
+            document.getElementById('price').value= doc.data().SellingPrice;
+            document.getElementById('currentweight').value= doc.data().FinalWeight;
 
             document.getElementById('update').onclick = () =>{
                 var date1= document.getElementById('date').value;
-                var weight = document.getElementById("weight").value;
-                var animalsRef = firebase.firestore().collection('weights').doc(queryString);
+                var price = document.getElementById("price").value;
+                var weight1 = document.getElementById("currentweight").value;
+                var animalsRef = firebase.firestore().collection('sold').doc(queryString);
                    return animalsRef.update({
                     Date1: date1,
-                    Weight: weight,
+                   Price: price,
+                   FinalWeight:weight1,
                    })
                   .then(() => {
                       console.log("Document successfully written!");
+                  //    window.setTimeout(()=>{location.reload()},3000) ;
                   
-                  window.location.href = "Weigh.html" + "?" + Id2;
+                  window.location.href = "Sold.html";
         
                   })
                   .catch((error) => {
@@ -83,20 +77,6 @@ firebase.auth().onAuthStateChanged((user) => {
                   }
 
           }
-          document.getElementById("delete").onclick=function(){
-            firebase.firestore().collection("weights").doc(queryString).delete().then(() => {
-              console.log("Document successfully deleted!");
-              window.location.href = "Weigh.html" + "?" + Id2;
-              
-          }).catch((error) => {
-              console.error("Error removing document: ", error);
-          });
-          }
-
-          document.getElementById("cancel").onclick=function(){
-            window.location.href = "Weigh.html" + "?" + Id2;
-          }
-
           }); 
 
       })
@@ -105,8 +85,18 @@ firebase.auth().onAuthStateChanged((user) => {
       });
 
 
-         
-
+          document.getElementById("delete").onclick=function(){
+            firebase.firestore().collection("sold").doc(queryString).delete().then(() => {
+              console.log("Document successfully deleted!");
+              window.location.href="Sold.html";
+              
+          }).catch((error) => {
+              console.error("Error removing document: ", error);
+          });
+          }
+          document.getElementById("cancel").onclick=function(){
+            window.location.href="Sold.html";
+          }
     } else {
       // User is signed out
       // ...

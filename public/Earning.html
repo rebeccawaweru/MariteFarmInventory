@@ -74,36 +74,14 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <div class="sidebar"> 
       <!-- Sidebar user panel -->
-      <!-- <div class="user-panel">
-        <div class="image text-center"><img src="dist/img/img1.jpg" class="img-circle" alt="User Image"> </div>
+      <div class="user-panel">
+        <div class="image text-center"> </div>
         <div class="info">
-          <p>Alexander Pierce</p>
-          <a href="#"><i class="fa fa-cog"></i></a> <a href="#"><i class="fa fa-envelope-o"></i></a> <a href="#"><i class="fa fa-power-off"></i></a> </div>
-      </div> -->
+          <p id="displayname"></p>
+          <a href="#"><i class="fa fa-cog"></i></a> <a href="#"><i class="fa fa-envelope-o"></i></a> </div>
+      </div>
       
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
-       
-        <li class="active treeview"> <a href="#"> <i class="fa fa-dashboard"></i> <span>Records</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span></a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="records.html">Animal Inventory</a></li>
-            <li class="active"><a href="Consumptions2.html">Consumptions</a></li>
       
-          </ul>
-        </li>
-        <!-- <li class="header"> Inventory </li>
-        <li class="treeview"> <a href="#"> <i class="fa fa-edit"></i> <span>Update Inventory</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
-          <ul class="treeview-menu">
-            <li><a href="form-wizard.html">Add Goods </a></li>
-          </ul>
-        </li>
-        <li class="header">HISTORY</li>
-        <li class="treeview"> <a href="#"> <i class="fa fa-share"></i> <span>Inventory History</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
-          <ul class="treeview-menu">
-            <li><a href="table-basic.html">Show History</a></li>
-          </ul>
-        </li> -->
-      </ul>
     </div>
     <!-- /.sidebar --> 
   </aside>
@@ -122,32 +100,17 @@
     
     <!-- Main content -->
     <div class="content">
+      <div id="warn" style="display: none;">
+        <p>You do not have enough permission to edit this document</p>
+        <a href="Consumptions2.html" style="font-weight: bolder; font-size: larger;">Go Back</a>
+       </div> 
+       <div id="body" style="display:none;">
         <div class="row">
             <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="info-box bg-darkblue">
               <div class="info-box-content">
                 <h6 class="info-box-text text-white">Today's Earning</h6>
                 <h1 class="text-white" id="todayearning"></h1>
-                <!-- <span class="progress-description text-white"> 70% Increase in 30 Days </span> -->
-               </div>
-              <!-- /.info-box-content --> 
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-darkblue">
-              <div class="info-box-content">
-                <h6 class="info-box-text text-white">Weekly Earning</h6>
-                <h1 class="text-white" id="weeklyearning"></h1>
-                <!-- <span class="progress-description text-white"> 70% Increase in 30 Days </span> -->
-               </div>
-              <!-- /.info-box-content --> 
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-darkblue">
-              <div class="info-box-content">
-                <h6 class="info-box-text text-white"> Monthly Earning</h6>
-                <h1 class="text-white" id="monthlyearning"></h1>
                 <!-- <span class="progress-description text-white"> 70% Increase in 30 Days </span> -->
                </div>
               <!-- /.info-box-content --> 
@@ -189,6 +152,7 @@
         </div>
         <!-- <button type="button" class="btn btn-success mt-5" id="totals" style="float: center;">View Totals</button> -->
       </div>
+    </div>
     </div>
     <!-- /.content --> 
   </div>

@@ -17,6 +17,26 @@ firebase.auth().onAuthStateChanged((user) => {
     document.getElementById("print").onclick = function(){
         window.print();
     }
+    firebase.firestore().collection("allanimals").where("AnimalType", "==", "Dairy")
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+        document.getElementById("dairyno").innerHTML = querySnapshot.docs.length;
+        });
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+    firebase.firestore().collection("allanimals").where("AnimalType", "==", "Beef")
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+        document.getElementById("beefno").innerHTML = querySnapshot.docs.length;
+        });
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
 
     firebase.firestore().collection("consumption")
     .get()

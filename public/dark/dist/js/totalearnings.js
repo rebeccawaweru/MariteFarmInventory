@@ -14,10 +14,28 @@ firebase.auth().onAuthStateChanged((user) => {
                         // An error happened.
                       });
                    }
-                //    document.getElementById('add').onclick = ()=>{
-                //     window.location.href = "Addcons.html"  ;
-   
-                // }
+                             //collect data
+      firebase.firestore().collection("users").where('UserId', '==', uid)
+      .get(user)
+      .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+              // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        var Id = doc.data().UserId;
+          var UserType = doc.data().UserType;
+          
+        if(UserType === "user"){
+            document.getElementById("warn").style.display = "block";
+        }else if(UserType === "admin"){
+            document.getElementById("body").style.display = "block"; 
+        }
+         
+          });
+          
+      })
+      .catch((error) => {
+          console.log("Error getting documents: ", error);
+      });
 
                 firebase.firestore().collection("earnings").get()
                 .then((querySnapshot) => {
@@ -37,7 +55,7 @@ firebase.auth().onAuthStateChanged((user) => {
                          var measure = doc.data().Measure;
                         var pp = doc.data().Pricepermeasure;
                         var earning = doc.data().Earning;
-                        
+                        var Date3 = new Date(Date1);
                       total = parseInt(doc.data().Earning);
                       totalearning +=total;
 
@@ -55,7 +73,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
                          content+= `<tr>`;
                          content+=`<td>`+ Tag + `</td>`;
-                         content+=`<td>`+ Date1 + `</td>`;
+                         content+=`<td>`+ Date3.toDateString() + `</td>`;
                          content+=`<td>`+ Product + `</td>`;
                          content+=`<td>`+ Quantity + measure+ `</td>`;
                          content+=`<td>`+  pp + "ksh" + "/"+measure + `</td>`;
@@ -77,7 +95,26 @@ firebase.auth().onAuthStateChanged((user) => {
                     console.log("Error getting documents: ", error);
                 });
             
-          
+                firebase.firestore().collection("earnings")
+                .get()
+                .then((querySnapshot) => {
+                  let earn = 0;
+                  let earn1 = 0;
+                  let today = new Date().toISOString().slice(0, 10)
+                    querySnapshot.forEach((doc) => {
+                        // doc.data() is never undefined for query doc snapshots
+                        var Date1 = doc.data().Date;
+                        if (Date1 === today){
+                         earn = parseInt(doc.data().Earning);
+                          earn1 += earn;
+                      document.getElementById("todayearning").innerHTML = earn1;
+                        }
+                      
+                    });
+                })
+                .catch((error) => {
+                    console.log("Error getting documents: ", error);
+                });         
             
 
           

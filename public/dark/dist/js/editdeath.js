@@ -29,7 +29,9 @@ firebase.auth().onAuthStateChanged((user) => {
           querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
-          var UserType = doc.data().UserType;
+        var Id = doc.data().UserId;
+         var UserType = doc.data().UserType;
+          
         if(UserType === "user"){
             document.getElementById("warn").style.display = "block";
         }else if(UserType === "admin"){
@@ -38,6 +40,7 @@ firebase.auth().onAuthStateChanged((user) => {
          
           document.getElementById('displayname').innerHTML= doc.data().Name;
           });
+          
       })
       .catch((error) => {
           console.log("Error getting documents: ", error);
@@ -48,33 +51,30 @@ firebase.auth().onAuthStateChanged((user) => {
       var queryString = decodeURIComponent(window.location.search);
       queryString = queryString.substring(1);
 
-      firebase.firestore().collection("weights")
+      firebase.firestore().collection("Deaths")
       .get()
       .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, " => ", doc.data());
-          var Id = doc.data().WeightID;
-          var Id2 = doc.data().ItemId;
-          var Date1 = doc.data().Date1;
-          var weight = doc.data().Weight;
+          var Id = doc.data().DeathId;
+ 
           if(queryString == Id ){
-
-            document.getElementById('date').value= Date1;
-            document.getElementById('weight').value= weight;
-
+            document.getElementById('date').value= doc.data().DateofDeath;
+            document.getElementById('cause').value= doc.data().CauseofDeath;
             document.getElementById('update').onclick = () =>{
-                var date1= document.getElementById('date').value;
-                var weight = document.getElementById("weight").value;
-                var animalsRef = firebase.firestore().collection('weights').doc(queryString);
+                var date1 = document.getElementById('date').value;
+                var cause = document.getElementById('cause').value;
+                var animalsRef = firebase.firestore().collection('Deaths').doc(queryString);
                    return animalsRef.update({
-                    Date1: date1,
-                    Weight: weight,
+                    DateofDeath: date1,
+                    CauseofDeath: cause,
                    })
                   .then(() => {
                       console.log("Document successfully written!");
+                  //    window.setTimeout(()=>{location.reload()},3000) ;
                   
-                  window.location.href = "Weigh.html" + "?" + Id2;
+                  window.location.href = "Death.html";
         
                   })
                   .catch((error) => {
@@ -83,20 +83,6 @@ firebase.auth().onAuthStateChanged((user) => {
                   }
 
           }
-          document.getElementById("delete").onclick=function(){
-            firebase.firestore().collection("weights").doc(queryString).delete().then(() => {
-              console.log("Document successfully deleted!");
-              window.location.href = "Weigh.html" + "?" + Id2;
-              
-          }).catch((error) => {
-              console.error("Error removing document: ", error);
-          });
-          }
-
-          document.getElementById("cancel").onclick=function(){
-            window.location.href = "Weigh.html" + "?" + Id2;
-          }
-
           }); 
 
       })
@@ -105,7 +91,25 @@ firebase.auth().onAuthStateChanged((user) => {
       });
 
 
-         
+          document.getElementById("delete").onclick=function(){
+            firebase.firestore().collection("earnings").doc(queryString).delete().then(() => {
+              console.log("Document successfully deleted!");
+              window.location.href="Death.html";
+              
+          }).catch((error) => {
+              console.error("Error removing document: ", error);
+          });
+          }
+          document.getElementById("cancel").onclick=function(){
+            window.location.href="Death.html";
+          }
+
+
+      
+
+
+       
+     
 
     } else {
       // User is signed out
