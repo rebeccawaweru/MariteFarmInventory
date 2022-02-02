@@ -64,7 +64,7 @@ firebase.auth().onAuthStateChanged((user) => {
                  var sign = "-";
                  console.log(w2)
                }else if(weight1>w){
-                 var w2 = weight1 - w2;
+                 var w2 = weight1 - w;
                  var w3 = w2;
                  var sign = "+";
                }

@@ -86,7 +86,7 @@ firebase.auth().onAuthStateChanged((user) => {
           document.getElementById("delete").onclick=function(){
             firebase.firestore().collection("weights").doc(queryString).delete().then(() => {
               console.log("Document successfully deleted!");
-              window.location.href = "Weigh.html" + "?" + Id2;
+              window.location.href = "records.html";
               
           }).catch((error) => {
               console.error("Error removing document: ", error);
@@ -94,7 +94,7 @@ firebase.auth().onAuthStateChanged((user) => {
           }
 
           document.getElementById("cancel").onclick=function(){
-            window.location.href = "Weigh.html" + "?" + Id2;
+            window.location.href = "records.html";
           }
 
           }); 
