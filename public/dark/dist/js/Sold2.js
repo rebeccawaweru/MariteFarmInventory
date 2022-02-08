@@ -17,14 +17,25 @@ document.getElementById('logout').onclick = ()=>{
         });
     }
 
-// document.getElementById('print').onclick = function(){
-//     printJS({
-//         printable: 'print',
-//         type: 'pdf',
-//         targetStyles: ['*'],
-//         header: 'PrintJS - Print Form With Customized Header'
-//      })
-// }
+    firebase.firestore().collection("users").where('UserId', '==', uid)
+    .get(user)
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+      var Id = doc.data().UserId;
+      var UserType = doc.data().UserType; 
+      var email = doc.data().Email;
+
+       if(UserType === "admin" && email === "maritepltd@gmail.com"){
+          document.getElementById("body").style.display = "block"; 
+       
+      }
+       
+        });
+        
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
 
 
 

@@ -2,6 +2,34 @@
 Template Name: Niche
 Author: UXLiner
 */
+firebase.auth().onAuthStateChanged((user) => {
+    if (user !== null) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      var uid = user.uid;
+                   //collect data
+firebase.firestore().collection("users").where('UserId', '==', uid)
+.get(user)
+.then((querySnapshot) => {
+	querySnapshot.forEach((doc) => {
+  var Id = doc.data().UserId;
+  var UserType = doc.data().UserType; 
+  var email = doc.data().Email;
+  if(UserType === "user"){
+	  document.getElementById("warn").style.display = "block";
+
+  }else if(UserType === "admin" && email === "maritepltd@gmail.com"){
+	  document.getElementById("body").style.display = "block"; 
+  }else{
+	document.getElementById("warn").style.display = "block"; 
+  }
+   
+	});
+	
+})
+.catch((error) => {
+	console.log("Error getting documents: ", error);
+});
 
 firebase.firestore().collection("consumption")
     .get()
@@ -280,3 +308,11 @@ firebase.firestore().collection("consumption")
     .catch((error) => {
         console.log("Error getting documents: ", error);
     });
+
+} else {
+    // User is signed out
+    // ...
+    window.location.href="index.html";
+    
+    }
+});

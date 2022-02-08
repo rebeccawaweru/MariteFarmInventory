@@ -15,27 +15,29 @@ firebase.auth().onAuthStateChanged((user) => {
                       });
                    }
                              //collect data
-      firebase.firestore().collection("users").where('UserId', '==', uid)
-      .get(user)
-      .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-              // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        var Id = doc.data().UserId;
-          var UserType = doc.data().UserType;
-          
-        if(UserType === "user"){
-            document.getElementById("warn").style.display = "block";
-        }else if(UserType === "admin"){
-            document.getElementById("body").style.display = "block"; 
-        }
-         
-          });
-          
-      })
-      .catch((error) => {
-          console.log("Error getting documents: ", error);
-      });
+                             firebase.firestore().collection("users").where('UserId', '==', uid)
+                             .get(user)
+                             .then((querySnapshot) => {
+                                 querySnapshot.forEach((doc) => {
+                         
+                               var Id = doc.data().UserId;
+                               var UserType = doc.data().UserType; 
+                               var email = doc.data().Email;
+                               if(UserType === "user"){
+                                   document.getElementById("warn").style.display = "block";
+                         
+                               }else if(UserType === "admin" && email === "maritepltd@gmail.com"){
+                                   document.getElementById("body").style.display = "block"; 
+                               }else{
+                                 document.getElementById("warn").style.display = "block"; 
+                               }
+                                
+                                 });
+                                 
+                             })
+                             .catch((error) => {
+                                 console.log("Error getting documents: ", error);
+                             });
 
                 firebase.firestore().collection("earnings").get()
                 .then((querySnapshot) => {

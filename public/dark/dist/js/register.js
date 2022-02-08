@@ -1,31 +1,8 @@
-firebase.auth().onAuthStateChanged((user) => {
-    if (user !== null) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      var uid = user.uid;
+
 
       
-                //logout
-                document.getElementById('logout').onclick = ()=>{
-                    firebase.auth().signOut().then(() => {
-                        // Sign-out successful.
-                        window.location.href="login.html";
-                      }).catch((error) => {
-                        // An error happened.
-                      });
-                   }
                 //collect data
-      firebase.firestore().collection("users")
-      .get()
-      .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-              // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-            var UserT = doc.data().UserType;
-
-         
-                document.getElementById('register').onclick = function (){
-                    if(UserT, "===", 'admin'){
+     document.getElementById('register').onclick = function (){
                     var name = document.getElementById('name').value;
                     var email = document.getElementById('email').value;
                     var pass1 = document.getElementById('password1').value;
@@ -40,18 +17,19 @@ firebase.auth().onAuthStateChanged((user) => {
                             // ...
                             
                             //creating db
-                                      
-                            firebase.firestore().collection("users").add({
+                              var userRef = firebase.firestore().collection("users").doc();       
+                            userRef.set({
+                                ID:userRef.id,
+                                UserId:user.uid,
                                 Name: name,
                                 Email: email,
                                 DateJoined: Joined,
-                                UserId : user.uid,
                                 UserType:"user"
                             })
                             .then(() => {
 
                                 console.log("Document successfully written!");
-                                window.location.href="User.html";
+                                window.location.href="index.html";
                             })
                             .catch((error) => {
                                 console.error("Error writing document: ", error);
@@ -68,30 +46,10 @@ firebase.auth().onAuthStateChanged((user) => {
                         document.getElementById("password1").value = '';
                         document.getElementById("password2").value = '';
                     }
-
-                }else{
-              
-                    console.log('Only admin can add user');
-       
-               
-                 }
-                
                 }
           
 
-          });
-      })
-      .catch((error) => {
-          console.log("Error getting documents: ", error);
-      });
 
               
             
 
-} else {
-    // User is signed out
-    // ...
-    window.location.href="index.html";
-    
-    }
-})

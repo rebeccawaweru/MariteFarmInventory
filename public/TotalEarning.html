@@ -144,7 +144,7 @@
     <div class="content">
       <div id="warn" style="display: none;">
         <p>You do not have enough permission to edit this document</p>
-        <a href="Consumptions2.html" style="font-weight: bolder; font-size: larger;">Go Back</a>
+        <a href="records.html" style="font-weight: bolder; font-size: larger;">Go Back</a>
        </div> 
        <div id="body" style="display:none;">
         <div class="row">
@@ -172,8 +172,10 @@
       <div class="info-box">
         <hr class="m-t-1 m-b-3">
         <h4 class="text-white">Earnings</h4>
+        Month: <input name="search" class="mb-2" placeholder="Search..." type="text" id="search" onkeyup="myFunction()">
+        Animal Tag: <input name="search" class="mb-2" placeholder="Search..." type="text" id="search2" onkeyup="myFunction2()">
         <div class="table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover" id="myTable">
             <thead>
               <tr>
                 <th scope="col">Animal Tag</th>
@@ -204,7 +206,50 @@
     Copyright © 2021 SidaiFarm. All rights reserved.</footer>
 </div>
 <!-- ./wrapper --> 
-
+<script>
+  function myFunction() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  function myFunction2() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search2");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
 <!-- firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js"></script>

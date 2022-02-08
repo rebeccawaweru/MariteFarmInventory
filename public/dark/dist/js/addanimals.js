@@ -64,58 +64,7 @@ firebase.auth().onAuthStateChanged((user) => {
             window.alert("Please enter the inital cost") 
           }else if (AType == ""){
             window.alert("Please enter the animal category") 
-          }else if (Method == "Bought"){
-            animalsRef.set({
-              ItemId:animalsRef.id,
-              AnimalID : Tag.toUpperCase(),
-              Animal: Name,
-              Date: Date1,
-              AnimalType:AType,
-              Product: Produce,
-              Method1:Method,
-              InitialCost: Cost,
-              InitialWeight:Weight,
-              Sold:false,
-  
-          })
-          .then(() => {
-    
-              console.log("Document successfully written!");
-              window.location.reload();
-          
-  
-          })
-          .catch((error) => {
-              console.error("Error writing document: ", error);
-          });
-
-          }else if(Method == "Born"){ 
-            offspringsRef.set({
-              ItemId:offspringsRef.id,
-              AnimalID:Tag.toUpperCase(),
-              Animal: Name,
-              Date: Date1,
-              ParentTag:Tag2,
-              AnimalType:AType,
-              Product: Produce,
-              Method1:Method,
-              InitialCost: Cost,
-              InitialWeight:Weight,
-              Sold:false,
-  
-          })
-          .then(() => {
-    
-              console.log("Document successfully written!");
-              window.location.reload();
-          
-  
-          })
-          .catch((error) => {
-              console.error("Error writing document: ", error);
-          });
-
-          }
+          }else{
             allanimalsRef.set({
               ItemId:allanimalsRef.id,
               ParentTag:Tag2,
@@ -141,6 +90,8 @@ firebase.auth().onAuthStateChanged((user) => {
           .catch((error) => {
               console.error("Error writing document: ", error);
           });
+          }
+            
 
 
           

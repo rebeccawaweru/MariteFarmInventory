@@ -14,6 +14,25 @@ firebase.auth().onAuthStateChanged((user) => {
                 // An error happened.
               });
            }
+           firebase.firestore().collection("users").where('UserId', '==', uid)
+           .get(user)
+           .then((querySnapshot) => {
+               querySnapshot.forEach((doc) => {
+             var Id = doc.data().UserId;
+             var UserType = doc.data().UserType; 
+             var email = doc.data().Email;
+       
+              if(UserType === "admin" && email === "maritepltd@gmail.com"){
+                 document.getElementById("body").style.display = "block"; 
+              
+             }
+              
+               });
+               
+           })
+           .catch((error) => {
+               console.log("Error getting documents: ", error);
+           });
 
     document.getElementById("print").onclick = function(){
         window.print();
